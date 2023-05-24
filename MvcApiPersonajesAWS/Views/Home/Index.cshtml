@@ -1,0 +1,93 @@
+﻿<table id="tablapersonajes" class="table table-hover table-bordered table-active">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Imagen</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="detalles"></div>
+
+<div id="loader" class="loader" style="display:none"></div>
+
+@section Scripts {
+    <style>
+        #loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            var urlApi = "https://52.90.175.107/index.html/api/personajes";
+            $("#loader").show();
+            $.ajax({
+                url: urlApi,
+                method: "GET",
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (index, personaje) {
+                        html += "<tr>";
+                        html += "<td>" + personaje.idPersonaje + "</td>";
+                        html += "<td>" + personaje.nombre + "</td>";
+                        html += "<td>" + personaje.imagen + "</td>";
+                        html += "<td><button class='getpersonaje btn btn-primary' id='" + personaje.idPersonaje + "'>Ver detalles</button></td>";
+                        html += "</tr>";
+                    })
+                    $("#tablapersonajes tbody").html(html);
+                    $("#loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $("#loader").hide();
+                    alert("Error al obtener los datos");
+                    console.log(xhr.responseText);
+                }
+            })
+            $(document).on('click', '.getpersonaje', function () {
+                var id = $(this).attr('id');
+                var url = "https://52.90.175.107/index.html/api/personajes/" + id;
+                $("#loader").show();
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    success: function (data) {
+                        var html = "";
+                        html += "<p>" + data.idPersonaje + "</p>";
+                        html += "<p>" + data.nombre + "</p>";
+                        html += "<p>" + data.imagen + "</p>";
+                        $("#detalles").html(html);
+                        $("#loader").hide();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#loader").hide();
+                        alert("Error al obtener los datos");
+                        console.log(xhr.responseText);
+                    }
+                });
+            })
+        })
+    </script>
+} 
