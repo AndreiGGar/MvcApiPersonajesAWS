@@ -43,7 +43,7 @@
 
     <script>
         $(document).ready(function () {
-            var urlApi = "https://44.201.218.41/api/personajes";
+            var urlApi = "https://3.93.188.187/api/personajes";
             $("#loader").show();
             $.ajax({
                 url: urlApi,
@@ -69,7 +69,7 @@
             })
             $(document).on('click', '.getpersonaje', function () {
                 var id = $(this).attr('id');
-                var url = "https://44.201.218.41/api/personajes/" + id;
+                var url = "https://3.93.188.187/api/personajes/" + id;
                 $("#loader").show();
                 $.ajax({
                     url: url,
