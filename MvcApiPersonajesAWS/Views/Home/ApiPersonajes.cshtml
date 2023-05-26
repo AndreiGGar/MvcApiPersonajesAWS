@@ -6,6 +6,8 @@
 
 <h4>ApiPersonajes</h4>
 
+@Html.ActionLink("Create", "Create", new {@class = "btn btn-info"})
+
 <table class="table">
     <thead>
         <tr>
@@ -22,23 +24,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPersonaje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPersonaje)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Imagen)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.IdPersonaje }, new {@class = "btn btn-success"}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.IdPersonaje }, new {@class = "btn btn-warning"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.IdPersonaje }, new {@class = "btn btn-danger"})
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
