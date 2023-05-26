@@ -87,6 +87,25 @@ namespace MvcApiPersonajesAWS.Services
             }
         }
 
+        private async Task<HttpStatusCode> DeleteApiAsync<T>(string request)
+        {
+            using (HttpClientHandler handler = new HttpClientHandler())
+            {
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicy) =>
+                {
+                    return true;
+                };
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    client.BaseAddress = new Uri(this.UrlApi);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(this.Header);
+                    HttpResponseMessage response = await client.DeleteAsync(request);
+                    return response.StatusCode;
+                }
+            }
+        }
+
         public async Task<List<Personaje>> GetPersonajesAsync()
         {
             string request = "/api/Personajes";
@@ -116,7 +135,7 @@ namespace MvcApiPersonajesAWS.Services
         public async Task DeletePersonajeAsync(int id)
         {
             string request = "/delete/" + id;
-            HttpStatusCode response = await this.PostApiAsync<string>(request, null);
+            HttpStatusCode response = await this.DeleteApiAsync<string>(request);
         }
     }
 }
