@@ -4,6 +4,7 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Imagen</th>
+            <th>Details</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -42,7 +43,7 @@
 
     <script>
         $(document).ready(function () {
-            var urlApi = "https://52.90.175.107/index.html/api/personajes";
+            var urlApi = "https://44.201.218.41/api/personajes";
             $("#loader").show();
             $.ajax({
                 url: urlApi,
@@ -53,8 +54,8 @@
                         html += "<tr>";
                         html += "<td>" + personaje.idPersonaje + "</td>";
                         html += "<td>" + personaje.nombre + "</td>";
-                        html += "<td>" + personaje.imagen + "</td>";
-                        html += "<td><button class='getpersonaje btn btn-primary' id='" + personaje.idPersonaje + "'>Ver detalles</button></td>";
+                        html += "<td><img src='" + personaje.imagen + "' style='width:200px; height: 200px;'/></td>";
+                        html += "<td><button class='getpersonaje btn btn-success' id='" + personaje.idPersonaje + "'>Ver detalles</button></td>";
                         html += "</tr>";
                     })
                     $("#tablapersonajes tbody").html(html);
@@ -68,7 +69,7 @@
             })
             $(document).on('click', '.getpersonaje', function () {
                 var id = $(this).attr('id');
-                var url = "https://52.90.175.107/index.html/api/personajes/" + id;
+                var url = "https://44.201.218.41/api/personajes/" + id;
                 $("#loader").show();
                 $.ajax({
                     url: url,
@@ -77,7 +78,7 @@
                         var html = "";
                         html += "<p>" + data.idPersonaje + "</p>";
                         html += "<p>" + data.nombre + "</p>";
-                        html += "<p>" + data.imagen + "</p>";
+                        html += "<p><img src='" + data.imagen + "' style='width:200px; height: 200px;'/></p>";
                         $("#detalles").html(html);
                         $("#loader").hide();
                     },
