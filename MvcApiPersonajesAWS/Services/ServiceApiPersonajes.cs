@@ -72,7 +72,7 @@ namespace MvcApiPersonajesAWS.Services
                 {
                     return true;
                 };
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient(handler))
                 {
                     client.BaseAddress = new Uri(this.UrlApi);
                     client.DefaultRequestHeaders.Clear();
