@@ -60,13 +60,13 @@ namespace MvcApiPersonajesAWS.Controllers
         public async Task<IActionResult> Update(int id, string nombre, string imagen)
         {
             await this.service.UpdatePersonajeAsync(id, nombre, imagen);
-            return View();
+            return RedirectToAction("ApiPersonajes");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             await this.service.DeletePersonajeAsync(id);
-            return RedirectToAction("ApiPersonajes"); ;
+            return RedirectToAction("ApiPersonajes");
         }
 
         public IActionResult Privacy()
