@@ -87,6 +87,29 @@ namespace MvcApiPersonajesAWS.Services
             }
         }
 
+        private async Task<HttpStatusCode> PutApiAsync<T>(string request, T objeto)
+        {
+            using (HttpClientHandler handler = new HttpClientHandler())
+            {
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, SslPolicyErrors) =>
+                {
+                    return true;
+                };
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    client.BaseAddress = new Uri(this.UrlApi);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(this.Header);
+
+                    string json = JsonConvert.SerializeObject(objeto);
+
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(request, content);
+                    return response.StatusCode;
+                }
+            }
+        }
+
         private async Task<HttpStatusCode> DeleteApiAsync<T>(string request)
         {
             using (HttpClientHandler handler = new HttpClientHandler())
@@ -122,19 +145,19 @@ namespace MvcApiPersonajesAWS.Services
 
         public async Task CreatePersonajeAsync(string nombre, string imagen)
         {
-            string request = "/create/" + nombre + "/" + imagen;
+            string request = "/api/Personajes/create/" + nombre + "/" + imagen;
             HttpStatusCode response = await this.PostApiAsync<string>(request, null);
         }
 
         public async Task UpdatePersonajeAsync(int id, string nombre, string imagen)
         {
-            string request = "/update/" + id + "/" + nombre + "/" + imagen;
-            HttpStatusCode response = await this.PostApiAsync<string>(request, null);
+            string request = "/api/Personajes/update/" + id + "/" + nombre + "/" + imagen;
+            HttpStatusCode response = await this.PutApiAsync<string>(request, null);
         }
 
         public async Task DeletePersonajeAsync(int id)
         {
-            string request = "/delete/" + id;
+            string request = "/api/Personajes/delete/" + id;
             HttpStatusCode response = await this.DeleteApiAsync<string>(request);
         }
     }
